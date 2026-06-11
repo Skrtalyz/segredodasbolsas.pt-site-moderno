@@ -1,0 +1,8 @@
+{
+  "name": "Remix: O Segredo das Bolsas Portugal",
+  "description": "Página de vendas de alta conversão para o livro digital O Segredo das Bolsas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
