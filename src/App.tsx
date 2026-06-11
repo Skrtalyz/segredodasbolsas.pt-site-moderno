@@ -35,8 +35,18 @@ const HOTMART_LINK = "https://pay.hotmart.com/C106096630V?checkoutMode=10";
 // Particle Gold system on dark hero background
 function GoldParticlesCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    setIsMobile(window.innerWidth <= 768);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) {
+      const canvas = canvasRef.current;
+      if (canvas) canvas.style.display = 'none';
+      return;
+    }
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -99,7 +109,9 @@ function GoldParticlesCanvas() {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [isMobile]);
+
+  if (isMobile) return null;
 
   return <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0 opacity-40 md:opacity-100" />;
 }
@@ -692,14 +704,7 @@ function FinalDrawDivider() {
 // --- MAIN CONTAINER WORKFLOW ---
 
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-    return () => clearTimeout(timer);
-  }, []);
 
 
 
@@ -792,33 +797,6 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white font-sans text-[#1A1A1A] antialiased selection:bg-[#D4A574]/30 selection:text-[#8B4513] scroll-smooth">
       
-      {/* 1. INITIAL LOADING SCREEN */}
-      <AnimatePresence>
-        {isLoading && (
-          <motion.div
-            key="loading-screen"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
-            className="fixed inset-0 bg-[#1A1A1A] z-[9999] flex flex-col items-center justify-center p-6"
-          >
-            <div className="text-center">
-              <div className="font-serif text-2xl sm:text-3xl text-[#D4A574] tracking-[0.25em] mb-6 select-none uppercase">
-                O SEGREDO DAS BOLSAS
-              </div>
-              <div className="w-[200px] h-0.5 bg-zinc-800 rounded-full overflow-hidden relative">
-                <motion.div
-                  initial={{ width: "0%" }}
-                  animate={{ width: "100%" }}
-                  transition={{ duration: 1.2, ease: "easeInOut" }}
-                  className="absolute top-0 left-0 h-full bg-[#D4A574]"
-                />
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* READING SCROLL PROGRESS BAR */}
       <div 
         style={{ width: `${scrollProgress}%` }}

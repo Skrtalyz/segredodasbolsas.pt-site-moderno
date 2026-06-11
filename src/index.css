@@ -78,3 +78,72 @@ h1, h2, h3 {
     cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="5" fill="%238B4513"/></svg>') 10 10, auto;
   }
 }
+
+/* --- MOBILE LAYOUT CORRECTIONS --- */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+canvas {
+  max-width: 100%;
+  display: block;
+}
+
+/* Correcção global para grids */
+[class*="grid"],
+.grid,
+.cards,
+.card-grid {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Correcção global para flex */
+[class*="flex"],
+.flex,
+.row {
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+img, video, iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Qualquer secção com animações de slide-in lateral */
+section,
+.secao,
+[id] {
+  overflow: hidden;
+}
+
+#comparativo-barras {
+  width: 100%;
+  max-width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .stack-item {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 768px) {
+  .depoimentos-grid,
+  .provas-grid,
+  [class*="depoimento"],
+  [class*="prova"] {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+  }
+}
+
