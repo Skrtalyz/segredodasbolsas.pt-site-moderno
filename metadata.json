@@ -1,6 +1,6 @@
 {
-  "name": "Remix: O Segredo das Bolsas Portugal",
-  "description": "Página de vendas de alta conversão para o livro digital O Segredo das Bolsas.",
+  "name": "Atelier de Malas Premium",
+  "description": "Página de vendas de alta conversão para o método digital Atelier de Malas Premium em Portugal.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

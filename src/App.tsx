@@ -248,7 +248,7 @@ function VisualBarComparativa() {
       className="col-span-1 sm:col-span-2 lg:col-span-4 bg-white/80 backdrop-blur-sm border-2 border-[#D4A574]/30 rounded-2xl p-6 sm:p-8 my-6 shadow-md transition-all duration-300 hover:shadow-lg flex flex-col gap-6"
     >
       <p className="text-sm font-bold text-[#8B4513] font-serif text-center uppercase tracking-wide">
-        Uma bolsa. Dois números. Uma decisão fácil.
+        Uma mala. Dois números. Uma decisão fácil.
       </p>
 
       {/* Barra 1 — Custo */}
@@ -292,7 +292,7 @@ function VisualBarComparativa() {
             transition={{ delay: 1.4, duration: 0.5 }}
             className="text-xs sm:text-sm text-stone-500 text-center font-medium italic mt-1"
           >
-            Margem de lucro: <strong className="text-[#3B6D11] not-italic font-black text-base">1.500%</strong> — numa única bolsa.
+            Margem de lucro: <strong className="text-[#3B6D11] not-italic font-black text-base">1.500%</strong> — numa única mala.
           </motion.p>
         )}
       </AnimatePresence>
@@ -409,7 +409,7 @@ function TimelinePassos() {
     {
       num: 1,
       title: "Acedes ao método",
-      desc: "Escolhes um modelo, segues o passo a passo de cinco minutos. Hoje mesmo, terás a tua primeira bolsa totalmente pontilhada e concluída.",
+      desc: "Escolhes um modelo, segues o passo a passo de cinco minutos. Hoje mesmo, terás a tua primeira mala totalmente pontilhada e concluída.",
       icon: <ShoppingBag className="h-5 w-5 text-white" />,
     },
     {
@@ -562,12 +562,12 @@ function TestimonialsCarousel() {
   const testimonials = [
     {
       name: "Ana",
-      text: '"Logo na primeira semana já tinha a minha primeira bolsa pronta. Três meses depois nem reconheço a minha vida. Estou a vender todos os dias."',
+      text: '"Logo na primeira semana já tinha a minha primeira mala pronta. Três meses depois nem reconheço a minha vida. Estou a vender todos os dias."',
       tag: "Compradora Verificada",
     },
     {
       name: "Marta",
-      text: '"Vendi uma bolsa por €80 que custou menos de €5 a fazer. Foi quando percebi que o método tinha mudado tudo para mim."',
+      text: '"Vendi uma mala por €80 que custou menos de €5 a fazer. Foi quando percebi que o método tinha mudado tudo para mim."',
       tag: "Compradora Verificada",
     },
     {
@@ -577,7 +577,7 @@ function TestimonialsCarousel() {
     },
     {
       name: "Fátima",
-      text: '"Este ano, com o dinheiro que comecei a ganhar com as bolsas, fiz a viagem que sempre sonhei. Nunca pensei que fosse possível."',
+      text: '"Este ano, com o dinheiro que comecei a ganhar com as malas, fiz a viagem que sempre sonhei. Nunca pensei que fosse possível."',
       tag: "Resultado Verificado",
     },
   ];
@@ -895,7 +895,7 @@ export default function App() {
                 
                 <img 
                   src="https://i.postimg.cc/Sx100wNK/image.png" 
-                  alt="O Segredo das Bolsas" 
+                  alt="Atelier de Malas Premium" 
                   className="relative w-full h-auto rounded-2xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] border border-[#D4A574]/30 z-10 transition-transform duration-500 hover:scale-[1.02]"
                   referrerPolicy="no-referrer"
                 />
@@ -986,9 +986,9 @@ export default function App() {
                     </div>
                     
                     <div className="text-center">
-                      <p className="font-serif text-xl font-extrabold tracking-wider text-[#fffaf0] leading-none mb-1">O SEGREDO</p>
-                      <p className="font-sans text-[10px] tracking-[0.3em] font-semibold text-[#D4A574] my-2">DAS</p>
-                      <p className="font-serif text-xl font-extrabold tracking-wider text-[#fffaf0] leading-none">BOLSAS</p>
+                      <p className="font-serif text-xl font-extrabold tracking-wider text-[#fffaf0] leading-none mb-1">ATELIER DE</p>
+                      <p className="font-sans text-[10px] tracking-[0.3em] font-semibold text-[#D4A574] my-2">MALAS</p>
+                      <p className="font-serif text-xl font-extrabold tracking-wider text-[#fffaf0] leading-none">PREMIUM</p>
                     </div>
 
                     <div className="text-center border-t border-[#D4A574]/15 pt-2">
@@ -1005,7 +1005,7 @@ export default function App() {
             {/* Right: Items stagger from right side with 150ms delay bounds */}
             <div className="lg:col-span-7 lg:pl-10">
               <p className="text-stone-700 text-sm sm:text-base leading-relaxed mb-8 font-medium">
-                "O registo completo de mais de uma década de descobertas, viagens, experiências e bolsas produzidas pelas próprias mãos da autora. O único método em Portugal que reúne, num só material, os modelos europeus, os modelos exclusivos da autora e o método que está a fazer mulheres comuns ganhar €500–1.500 por mês a trabalhar de casa."
+                "O registo completo de mais de uma década de descobertas, viagens, experiências e malas produzidas pelas próprias mãos da autora. O único método em Portugal que reúne, num só material, os modelos europeus, os modelos exclusivos da autora e o método que está a fazer mulheres comuns ganharem €500–1.500 por mês a trabalhar de casa."
               </p>
 
               <div className="grid gap-6 sm:grid-cols-2 pt-6 border-t border-zinc-200">
@@ -1127,7 +1127,7 @@ export default function App() {
                 <h4 className="text-[15px] font-black text-[#1A1A1A] mb-1.5 leading-tight">
                   <AnimatedCount end={15} prefix="€" /> para começar
                 </h4>
-                <p className="text-xs text-zinc-650 leading-relaxed font-semibold">10 bolsas produzidas com o investimento de um jantar fora.</p>
+                <p className="text-xs text-zinc-650 leading-relaxed font-semibold">10 malas produzidas com o investimento de um jantar fora.</p>
               </div>
             </motion.div>
 
@@ -1145,7 +1145,7 @@ export default function App() {
                 <h4 className="text-[15px] font-black text-[#1A1A1A] mb-1.5 leading-tight">
                   Margem de <AnimatedCount end={1000} suffix="%" />
                 </h4>
-                <p className="text-xs text-zinc-600 leading-relaxed font-semibold">Bolsa que custa €5 vende a €80. Faz as contas.</p>
+                <p className="text-xs text-zinc-600 leading-relaxed font-semibold">Mala que custa €5 vende a €80. Faz as contas.</p>
               </div>
             </motion.div>
 
@@ -1164,7 +1164,7 @@ export default function App() {
               <div>
                 <span className="text-3xl font-serif font-black text-[#8B4513]/30 block mb-3">04</span>
                 <h4 className="text-[15px] font-black text-[#1A1A1A] mb-1.5 leading-tight">
-                  <AnimatedCount end={5} suffix=" min" /> por bolsa
+                  <AnimatedCount end={5} suffix=" min" /> por mala
                 </h4>
                 <p className="text-xs text-zinc-655 leading-relaxed font-semibold">Uma tarde produz a semana inteira de vendas.</p>
               </div>
@@ -1214,7 +1214,7 @@ export default function App() {
               <div>
                 <span className="text-3xl font-serif font-black text-[#8B4513]/30 block mb-3">07</span>
                 <h4 className="text-[15px] font-black text-[#1A1A1A] mb-1.5 leading-tight">Procura eterna</h4>
-                <p className="text-xs text-zinc-600 leading-relaxed font-semibold">Toda a mulher quer bolsas. Todos os meses. Em todas as classes.</p>
+                <p className="text-xs text-zinc-600 leading-relaxed font-semibold">Toda a mulher quer malas. Todos os meses. Em todas as classes.</p>
               </div>
             </motion.div>
 
@@ -1280,7 +1280,7 @@ export default function App() {
               <GridItemFlip 
                 number="01"
                 title="O Método Express"
-                text="Como produzir a tua primeira bolsa comercializável na primeira hora, seguindo um cronograma simples que poupa o teu tempo precioso."
+                text="Como produzir a tua primeira mala comercializável na primeira hora, seguindo um cronograma simples que poupa o teu tempo precioso."
                 index={0}
               />
 
@@ -1360,7 +1360,7 @@ export default function App() {
               index={1}
               bonusNumber="Bónus 2"
               title="Guia de Preços e Lucros"
-              text="Uma tabela simples que te diz exactamente quanto cobrar por cada tipo de bolsa, com base no custo real dos materiais e no mercado português actual. Acabou a incerteza de &quot;será que estou a cobrar bem?&quot;"
+              text="Uma tabela simples que te diz exactamente quanto cobrar por cada tipo de mala, com base no custo real dos materiais e no mercado português actual. Acabou a incerteza de &quot;será que estou a cobrar bem?&quot;"
               value={12}
             />
 
@@ -1368,7 +1368,7 @@ export default function App() {
               index={2}
               bonusNumber="Bónus 3"
               title="Roteiro de Vendas pelo WhatsApp"
-              text="As mensagens exactas, prontas a copiar e adaptar, para apresentares as tuas bolsas a amigas, familiares e conhecidas sem parecer chata nem insistente. O caminho mais curto entre a tua primeira bolsa pronta e o primeiro dinheiro na conta."
+              text="As mensagens exactas, prontas a copiar e adaptar, para apresentares as tuas malas a amigas, familiares e conhecidas sem parecer chata nem insistente. O caminho mais curto entre a tua primeira mala pronta e o primeiro dinheiro na conta."
               value={17}
             />
 
@@ -1376,7 +1376,7 @@ export default function App() {
               index={3}
               bonusNumber="Bónus 4"
               title="Calendário de Procura Anual"
-              text="Os 12 meses do ano organizados pelos momentos de maior procura por bolsas artesanais em Portugal: datas comemorativas, épocas de ofertas, alturas de mercados e feiras. Sabe sempre o que produzir e quando vender para maximizar as tuas semanas de maior rendimento."
+              text="Os 12 meses do ano organizados pelos momentos de maior procura por malas artesanais em Portugal: datas comemorativas, épocas de ofertas, alturas de mercados e feiras. Sabe sempre o que produzir e quando vender para maximizar as tuas semanas de maior rendimento."
               value={9}
             />
 
@@ -1558,7 +1558,7 @@ export default function App() {
               
               <ul className="space-y-4">
                 {[
-                  "És uma mulher que quer uma renda própria ou alcançar a sua autonomia financeira.",
+                  "És uma mulher que quer uma renda própria ou alcançar a tua autonomia financeira.",
                   "Estás cansada de tentar coisas na Internet que não dão resultados reais ou palpáveis.",
                   "Tens algumas horas vagas por semana que gostarias de monetizar de forma produtiva.",
                   "És dona de casa, reformada, mãe, autónoma ou queres complementar o teu salário atual.",
@@ -1686,7 +1686,7 @@ export default function App() {
                   index={1}
                 />
                 <AutoraParagraph 
-                  text="&quot;Até ao dia em que descobri as bolsas artesanais, e um método europeu que ninguém em Portugal ainda usava da forma certa.&quot;"
+                  text="&quot;Até ao dia em que descobri as malas artesanais, e um método europeu que ninguém em Portugal ainda usava da forma certa.&quot;"
                   index={2}
                 />
                 <AutoraParagraph 
@@ -1748,7 +1748,7 @@ export default function App() {
           <div className="text-center mb-16">
             <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8B4513]">PROVA DE SUCESSO DE PORTUGAL</span>
             <h2 className="font-serif text-3xl font-black text-[#1A1A1A] sm:text-4xl mt-3">
-              Bolsas feitas com o método — vendidas em Portugal
+              Malas feitas com o método — vendidas em Portugal
             </h2>
             <div className="mx-auto mt-5 h-[2px] w-12 bg-[#8B4513]"></div>
           </div>
@@ -1787,7 +1787,7 @@ export default function App() {
 
           <div className="text-center mt-12 pb-4">
             <p className="text-[15px] italic text-[#666666]">
-              "Estas bolsas foram feitas com o método. A próxima pode ser tua."
+              "Estas malas foram feitas com o método. A próxima pode ser tua."
             </p>
           </div>
 
@@ -1800,7 +1800,7 @@ export default function App() {
               rel="noopener noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-lg bg-[#8B4513] px-10 py-4.5 text-center text-base font-bold text-white shadow-md transition-all duration-300 hover:bg-[#70370f] hover:shadow-xl"
             >
-              Quero fazer bolsas como estas — €7,90
+              Quero fazer malas como estas — €7,90
               <ArrowRight className="h-5 w-5" />
             </motion.a>
           </div>
@@ -1823,9 +1823,9 @@ export default function App() {
             {/* List trigger on viewport with sequenced delay */}
             <div className="space-y-4">
               {[
-                { label: "O Segredo das Bolsas: método digital completo", price: "€19" },
+                { label: "Atelier de Malas Premium: método digital completo", price: "€19" },
                 { label: "6 capítulos · 500+ modelos europeus e exclusivos", price: "incluído" },
-                { label: "Método Express: primeira bolsa pronta hoje", price: "incluído" },
+                { label: "Método Express: primeira mala pronta hoje", price: "incluído" },
                 { label: "Protocolo Antifalhas: erro zero na primeira tentativa", price: "incluído" },
                 { label: "Bónus 1: Lista de Fornecedores PT e ES", price: "€19" },
                 { label: "Bónus 2: Guia de Preços e Lucros", price: "€12" },
@@ -1871,7 +1871,7 @@ export default function App() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 animate={{ 
-                  boxShadow: ["0 0 0 0 rgba(139,69,19,0)", "0 0 20px 4px rgba(212,165,116,0.3)", "0 0 0 0 rgba(139,69,19,0)"] 
+                  boxShadow: ["0 0 0 0 rgba(22,163,74,0)", "0 0 20px 4px rgba(22,163,74,0.4)", "0 0 0 0 rgba(22,163,74,0)"] 
                 }}
                 transition={{ 
                   repeat: Infinity, 
@@ -1881,7 +1881,7 @@ export default function App() {
                 href={HOTMART_LINK} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#8B4513] px-6 py-4.5 text-center text-sm sm:text-base font-black uppercase tracking-widest text-white transition-all duration-300 hover:bg-[#70370f] focus:outline-none"
+                className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#16A34A] px-6 py-4.5 text-center text-sm sm:text-base font-black uppercase tracking-widest text-white transition-all duration-300 hover:bg-[#15803D] focus:outline-none"
                 id="final-cta-button"
               >
                 Quero tudo isto por €7,90 — acesso imediato
@@ -1923,7 +1923,7 @@ export default function App() {
           </motion.div>
 
           <p className="text-zinc-500 text-xs sm:text-sm italic font-semibold max-w-lg mx-auto leading-relaxed">
-            "Já vendeste uma bolsa? Pagaste o método e ainda sobra. Se não venderes nenhuma, eu devolvo-te o dinheiro. É assim tão simples."
+            "Já vendeste uma mala? Pagaste o método e ainda sobra. Se não venderes nenhuma, eu devolvo-te o dinheiro. É assim tão simples."
           </p>
 
         </div>
@@ -1934,18 +1934,18 @@ export default function App() {
         <div className="mx-auto max-w-[960px]">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-10">
             <div className="font-serif text-lg text-[#D4A574] tracking-[0.2em] uppercase font-bold text-center md:text-left">
-              O SEGREDO DAS BOLSAS
+              ATELIER DE MALAS PREMIUM
             </div>
             
             <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
               <button onClick={() => setActiveModal("privicidade")} className="hover:text-[#D4A574] transition-colors">POLÍTICA DE PRIVACIDADE</button>
               <button onClick={() => setActiveModal("termos")} className="hover:text-[#D4A574] transition-colors">TERMOS E CONDIÇÕES</button>
-              <button onClick={() => setActiveModal("contacto")} className="hover:text-[#D4A574] transition-colors">CONTATO</button>
+              <button onClick={() => setActiveModal("contacto")} className="hover:text-[#D4A574] transition-colors">CONTACTO</button>
             </div>
           </div>
 
           <div className="border-t border-zinc-900/60 pt-8 text-center text-[10px] text-zinc-600 font-semibold tracking-wide space-y-2">
-            <p>© {new Date().getFullYear()} O Segredo das Bolsas Portugal. Todos os direitos reservados.</p>
+            <p>© {new Date().getFullYear()} Atelier de Malas Premium Portugal. Todos os direitos reservados.</p>
             <p className="max-w-2xl mx-auto leading-relaxed">Este material digital não é afiliado de nenhuma rede social ou plataforma externa, sendo toda a responsabilidade de operacionalização e garantia do proprietário legal.</p>
           </div>
         </div>
@@ -1996,7 +1996,7 @@ export default function App() {
                   <div>
                     <h3 className="font-serif text-2xl font-black text-zinc-900 mb-4 tracking-tight">Termos e Condições</h3>
                     <div className="space-y-4 text-xs sm:text-sm text-zinc-650 leading-relaxed font-semibold">
-                      <p>Ao acederes ao método digital O Segredo das Bolsas, concordas em cumprir estes termos de serviço, todas as leis e regulamentos aplicáveis.</p>
+                      <p>Ao acederes ao método digital Atelier de Malas Premium, concordas em cumprir estes termos de serviço, todas as leis e regulamentos aplicáveis.</p>
                       <p>O conteúdo deste método, incluindo textos, moldes, fornecedores e estratégias comerciais, está protegido por leis de direitos de autor aplicáveis.</p>
                       <p>A licença fornecida após a compra é estritamente de caráter pessoal e intransmissível. É terminantemente proibido piratear, partilhar ou revender os ficheiros PDF sem autorização por escrito dos detentores legais.</p>
                     </div>
@@ -2012,7 +2012,7 @@ export default function App() {
                     <div className="mx-auto max-w-sm space-y-4 pt-6 border-t border-zinc-100">
                       <div className="flex items-center justify-center gap-3 text-zinc-700 bg-zinc-50 p-3 rounded-xl border border-zinc-150">
                         <Mail className="h-5 w-5 text-[#8B4513]" />
-                        <span className="text-xs sm:text-sm font-bold text-zinc-900">suporte@osegredodasbolsas.pt</span>
+                        <span className="text-xs sm:text-sm font-bold text-zinc-900">suporte@atelierdemalas.pt</span>
                       </div>
                       <div className="flex items-center justify-center gap-3 text-zinc-700 bg-zinc-50 p-3 rounded-xl border border-zinc-150">
                         <Phone className="h-5 w-5 text-[#8B4513]" />
