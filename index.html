@@ -1,10 +1,51 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script>
+      // Safe wrapper to prevent "Converting circular structure to JSON" errors 
+      // when third-party trackers, pixels, or dev tools serialize elements/events.
+      (function() {
+        var originalStringify = JSON.stringify;
+        JSON.stringify = function(value, replacer, space) {
+          var seen = new WeakSet();
+          return originalStringify(value, function(key, val) {
+            if (typeof val === "object" && val !== null) {
+              if (seen.has(val)) {
+                return "[Circular]";
+              }
+              seen.add(val);
+              // Cleanly bypass serialized DOM nodes, events or React Fiber structures to avoid massive/circular trees
+              if (val.nodeType || (val.constructor && (val.constructor.name.includes("Fiber") || val.constructor.name.includes("Element") || val.constructor.name.includes("Event")))) {
+                return "[" + (val.constructor.name || "DOMElement") + "]";
+              }
+            }
+            if (typeof replacer === "function") {
+              return replacer(key, val);
+            }
+            return val;
+          }, space);
+        };
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Aprende a fazer malas artesanais premium e a vendê-las a €80–150 cada. Método europeu validado por mais de 800 mulheres em Portugal. Acesso imediato por apenas €7,90." />
     <title>Atelier de Malas Premium — Método Europeu para Fazer e Vender Malas Artesanais em Portugal</title>
+    <script
+      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+      data-utmify-prevent-xcod-sck
+      data-utmify-prevent-subids
+      async
+      defer
+    ></script>
+    <script>
+      window.pixelId = "6a3737856e2cbd5e55c02338";
+      var a = document.createElement("script");
+      a.setAttribute("async", "");
+      a.setAttribute("defer", "");
+      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+      document.head.appendChild(a);
+    </script>
   </head>
   <body>
     <div id="root"></div>
