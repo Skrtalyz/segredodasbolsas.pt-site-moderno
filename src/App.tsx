@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { 
   Check, 
   X, 
@@ -25,228 +25,77 @@ import {
   Mail,
   Award
 } from "lucide-react";
-import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
+// Static elements mimicking motion to disable animations cleanly and guarantee instant static loading
+const AnimatePresence = ({ children }: { children: React.ReactNode }) => <>{children}</>;
+const motion = {
+  div: ({ initial, animate, exit, transition, whileHover, whileTap, viewport, ...props }: any) => <div {...props} />,
+  span: ({ initial, animate, exit, transition, whileHover, whileTap, viewport, ...props }: any) => <span {...props} />,
+  p: ({ initial, animate, exit, transition, whileHover, whileTap, viewport, ...props }: any) => <p {...props} />,
+  a: ({ initial, animate, exit, transition, whileHover, whileTap, viewport, ...props }: any) => <a {...props} />,
+  h1: ({ initial, animate, exit, transition, whileHover, whileTap, viewport, ...props }: any) => <h1 {...props} />,
+  li: ({ initial, animate, exit, transition, whileHover, whileTap, viewport, ...props }: any) => <li {...props} />,
+  circle: ({ initial, animate, exit, transition, whileHover, whileTap, viewport, ...props }: any) => <circle {...props} />,
+  path: ({ initial, animate, exit, transition, whileHover, whileTap, viewport, ...props }: any) => <path {...props} />,
+  section: ({ initial, animate, exit, transition, whileHover, whileTap, viewport, ...props }: any) => <section {...props} />,
+};
 
 // LINK DO HOTMART - SUBSTUTUÍVEL FACILMENTE PELO UTILIZADOR
 const HOTMART_LINK = "https://pay.hotmart.com/C106096630V?checkoutMode=10";
 
 // --- SUB-COMPONENTS FOR CINEMATIC REDESIGN ---
 
-// Particle Gold system on dark hero background
+// Static backdrop - returning null to completely remove the animation loop and boost performance
 function GoldParticlesCanvas() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth <= 768);
-  }, []);
-
-  useEffect(() => {
-    if (isMobile) {
-      const canvas = canvasRef.current;
-      if (canvas) canvas.style.display = 'none';
-      return;
-    }
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let width = (canvas.width = canvas.parentElement?.clientWidth || window.innerWidth);
-    let height = (canvas.height = canvas.parentElement?.clientHeight || window.innerHeight);
-
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = canvas.parentElement?.clientWidth || window.innerWidth;
-      height = canvas.height = canvas.parentElement?.clientHeight || window.innerHeight;
-    };
-    window.addEventListener("resize", handleResize);
-
-    const particlesCount = 60;
-    const particles: Array<{
-      x: number;
-      y: number;
-      radius: number;
-      vx: number;
-      vy: number;
-      alpha: number;
-    }> = [];
-
-    for (let i = 0; i < particlesCount; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        radius: Math.random() * 2 + 1, // 1px to 3px
-        vx: (Math.random() - 0.5) * 0.15, // very slow
-        vy: (Math.random() - 0.5) * 0.15,
-        alpha: Math.random() * 0.5 + 0.15,
-      });
-    }
-
-    const render = () => {
-      ctx.clearRect(0, 0, width, height);
-      for (let i = 0; i < particlesCount; i++) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(212, 165, 116, ${p.alpha})`;
-        ctx.fill();
-      }
-
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [isMobile]);
-
-  if (isMobile) return null;
-
-  return <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0 opacity-40 md:opacity-100" />;
+  return null;
 }
 
-// Staggered letters or words for premium typewriter animation
+// Staggered letters or words rendered statically for instant reading
 function TypewriterHeading({ text }: { text: string }) {
   const words = useMemo(() => text.split(" "), [text]);
-  const highlightWord = "€500–1.500/mês";
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const wordVariants = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-  };
-
   return (
-    <motion.h1 
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className="font-serif text-3xl font-black leading-[1.12] text-white sm:text-4xl md:text-[46px] tracking-tight mb-6"
-    >
+    <h1 className="font-serif text-3xl font-black leading-[1.12] text-white sm:text-4xl md:text-[46px] tracking-tight mb-6">
       {words.map((word, idx) => {
         const isHighlight = word.includes("€500–1.500/mês");
         return (
-          <motion.span 
+          <span 
             key={idx} 
-            variants={wordVariants} 
             className={`inline-block mr-2.5 ${isHighlight ? 'text-[#D4A574] underline decoration-[#8B4513] decoration-4 underline-offset-4' : 'text-white'}`}
           >
             {word}
-          </motion.span>
+          </span>
         );
       })}
-    </motion.h1>
+    </h1>
   );
 }
 
-// Live numeric increment on scroll visibility
+// Live count rendered statically and instantly to avoid layout lag
 function AnimatedCount({ end, prefix = "", suffix = "" }: { end: number; prefix?: string; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement | null>(null);
-  const [isInView, setIsInView] = useState(false);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIsInView(true);
-        observer.unobserve(entry.target);
-      }
-    }, { threshold: 0.1 });
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!isInView) return;
-    let start = 0;
-    const duration = 2000;
-    let startTime: number | null = null;
-
-    const step = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      const current = Math.floor(easeOut * end);
-      setCount(current);
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      }
-    };
-    requestAnimationFrame(step);
-  }, [isInView, end]);
-
   return (
-    <span ref={ref}>
-      {prefix}{count.toLocaleString("pt-PT")}{suffix}
+    <span>
+      {prefix}{end.toLocaleString("pt-PT")}{suffix}
     </span>
   );
 }
 
-// Scrolling Pain Frases
+// Static pain phrase
 function PainFrase({ text, subtext, isHighlight }: { text: string; subtext: string; isHighlight?: boolean }) {
   return (
-    <motion.div
-      initial={{ opacity: 0.2, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, amount: 0.6 }}
-      transition={{ type: "spring", stiffness: 60, damping: 15 }}
-      className="flex flex-col items-center justify-center text-center py-12 md:py-16 max-w-3xl mx-auto border-b border-white/5 last:border-0"
-    >
+    <div className="flex flex-col items-center justify-center text-center py-12 md:py-16 max-w-3xl mx-auto border-b border-white/5 last:border-0">
       <h3 className={`font-serif text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 leading-tight ${isHighlight ? 'text-[#D4A574]' : 'text-white'}`}>
         {text}
       </h3>
       <p className="text-zinc-400 text-xs sm:text-sm md:text-base max-w-xl font-medium tracking-wide">
         {subtext}
       </p>
-    </motion.div>
+    </div>
   );
 }
 
-// Visual Double Bar Comparativo Chart
+// Static comparison bar
 function VisualBarComparativa() {
-  const [isInView, setIsInView] = useState(false);
-  const ref = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIsInView(true);
-        observer.unobserve(entry.target);
-      }
-    }, { threshold: 0.2 });
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div
-      ref={ref}
-      id="comparativo-barras"
-      className="col-span-1 sm:col-span-2 lg:col-span-4 bg-white/80 backdrop-blur-sm border-2 border-[#D4A574]/30 rounded-2xl p-6 sm:p-8 my-6 shadow-md transition-all duration-300 hover:shadow-lg flex flex-col gap-6"
-    >
+    <div className="col-span-1 sm:col-span-2 lg:col-span-4 bg-white/80 backdrop-blur-sm border-2 border-[#D4A574]/30 rounded-2xl p-6 sm:p-8 my-6 shadow-md transition-all duration-300 hover:shadow-lg flex flex-col gap-6">
       <p className="text-sm font-bold text-[#8B4513] font-serif text-center uppercase tracking-wide">
         Uma mala. Dois números. Uma decisão fácil.
       </p>
@@ -258,10 +107,8 @@ function VisualBarComparativa() {
           <span className="font-bold text-[#854F0B]">€5</span>
         </div>
         <div className="w-full bg-[#F1EFE8] rounded-full h-3.5 overflow-hidden">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={isInView ? { width: "6.25%" } : {}}
-            transition={{ duration: 1.5, ease: "easeOut" }}
+          <div
+            style={{ width: "6.25%" }}
             className="bg-[#D4A574] h-full rounded-full"
           />
         </div>
@@ -274,43 +121,24 @@ function VisualBarComparativa() {
           <span className="font-bold text-[#3B6D11]">€80</span>
         </div>
         <div className="w-full bg-[#F1EFE8] rounded-full h-3.5 overflow-hidden">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={isInView ? { width: "100%" } : {}}
-            transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
+          <div
+            style={{ width: "100%" }}
             className="bg-[#8B4513] h-full rounded-full"
           />
         </div>
       </div>
 
-      {/* Margem appears triggered when bar animations conclude */}
-      <AnimatePresence>
-        {isInView && (
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.4, duration: 0.5 }}
-            className="text-xs sm:text-sm text-stone-500 text-center font-medium italic mt-1"
-          >
-            Margem de lucro: <strong className="text-[#3B6D11] not-italic font-black text-base">1.500%</strong> — numa única mala.
-          </motion.p>
-        )}
-      </AnimatePresence>
+      <p className="text-xs sm:text-sm text-stone-500 text-center font-medium italic mt-1">
+        Margem de lucro: <strong className="text-[#3B6D11] not-italic font-black text-base">1.500%</strong> — numa única mala.
+      </p>
     </div>
   );
 }
 
-// Flipping Method Detail Item
+// Static method item details
 function GridItemFlip({ number, title, text, index }: { number: string; title: string; text: string; index: number }) {
   return (
-    <motion.div
-      initial={{ rotateY: 90, opacity: 0 }}
-      whileInView={{ rotateY: 0, opacity: 1 }}
-      viewport={{ once: true, margin: "-30px" }}
-      transition={{ duration: 0.7, delay: index * 0.1, ease: "easeOut" }}
-      className="relative rounded-xl border-2 border-[#D4A574]/25 bg-white p-6 shadow-md flex flex-col justify-between overflow-hidden group min-w-[280px] sm:min-w-0 snap-center hover:border-[#8B4513] hover:shadow-xl transition-all duration-300"
-      style={{ transformStyle: "preserve-3d" }}
-    >
+    <div className="relative rounded-xl border-2 border-[#D4A574]/25 bg-white p-6 shadow-md flex flex-col justify-between overflow-hidden group min-w-[280px] sm:min-w-0 snap-center hover:border-[#8B4513] hover:shadow-xl transition-all duration-300">
       <span className="absolute -bottom-4 -right-2 text-[100px] font-serif font-black text-[#D4A574]/10 select-none pointer-events-none transition-transform duration-300 group-hover:scale-110">
         {number}
       </span>
@@ -326,36 +154,14 @@ function GridItemFlip({ number, title, text, index }: { number: string; title: s
           {text}
         </p>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
-// Zoom bonus cards
+// Static Bonus Card
 function BonusCard({ index, bonusNumber, title, text, value }: { index: number; bonusNumber: string; title: string; text: string; value: number }) {
-  const [hasAnimated, setHasAnimated] = useState(false);
-  const ref = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setHasAnimated(true);
-        observer.unobserve(entry.target);
-      }
-    }, { threshold: 0.2 });
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, scale: 0.82 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ type: "spring", stiffness: 70, damping: 15, delay: index * 0.1 }}
-      className="bg-[#1A1A1A] p-6 rounded-2xl border-2 border-[#D4A574]/30 shadow-md flex flex-col justify-between transition-all duration-300 hover:border-[#8B4513] hover:shadow-2xl hover:scale-[1.01]"
-    >
+    <div className="bg-[#1A1A1A] p-6 rounded-2xl border-2 border-[#D4A574]/30 shadow-md flex flex-col justify-between transition-all duration-300 hover:border-[#8B4513] hover:shadow-2xl">
       <div>
         <div className="h-10 w-10 rounded-lg bg-[#8B4513]/20 flex items-center justify-center text-[#D4A574] mb-4 shadow">
           {index === 0 && <FileText className="h-5 w-5" />}
@@ -375,35 +181,19 @@ function BonusCard({ index, bonusNumber, title, text, value }: { index: number; 
         <div className="flex items-center gap-4 flex-wrap">
           <div className="relative">
             <span className="text-zinc-500 text-xs sm:text-sm font-bold uppercase tracking-wider">Valor: €{value}</span>
-            {hasAnimated && (
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ delay: 0.5, duration: 0.4 }}
-                className="absolute top-1/2 left-0 h-0.5 bg-red-650"
-              />
-            )}
+            <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-red-650" />
           </div>
 
-          <AnimatePresence>
-            {hasAnimated && (
-              <motion.span
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.9, duration: 0.4 }}
-                className="inline-block px-3 py-1 rounded bg-[#EAF3DE] text-[#3B6D11] text-[10px] font-extrabold tracking-widest uppercase border border-[#3B6D11]/25 animate-pulse"
-              >
-                Incluído grátis
-              </motion.span>
-            )}
-          </AnimatePresence>
+          <span className="inline-block px-3 py-1 rounded bg-[#EAF3DE] text-[#3B6D11] text-[10px] font-extrabold tracking-widest uppercase border border-[#3B6D11]/25">
+            Incluído grátis
+          </span>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
-// Timeline vertical con border animada draw
+// Static Timeline Passos
 function TimelinePassos() {
   const steps = [
     {
@@ -428,31 +218,19 @@ function TimelinePassos() {
 
   return (
     <div className="relative max-w-2xl mx-auto pl-8 sm:pl-16 space-y-12 py-4">
-      {/* Scroll timeline column vector indicator */}
-      <div className="absolute left-[19px] sm:left-[27px] top-6 bottom-6 w-[2px] bg-zinc-200 z-0">
-        <motion.div
-          initial={{ height: 0 }}
-          whileInView={{ height: "100%" }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.4, ease: "easeInOut" }}
-          className="bg-[#8B4513] w-full"
-        />
-      </div>
+      {/* Static line vertical */}
+      <div className="absolute left-[19px] sm:left-[27px] top-6 bottom-6 w-[2px] bg-[#8B4513] z-0" />
 
-      {steps.map((step, idx) => (
-        <motion.div
+      {steps.map((step) => (
+        <div
           key={step.num}
-          initial={{ opacity: 0, x: 25 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, delay: idx * 0.2 }}
           className="relative flex gap-6 items-start"
         >
           {/* Timeline node */}
           <div className="absolute -left-[35px] sm:-left-[51px] z-10 flex h-[40px] w-[40px] items-center justify-center bg-[#8B4513] rounded-full overflow-hidden shadow">
-            {/* SVG circle stroke borders animation */}
+            {/* SVG circle stroke borders */}
             <svg className="absolute inset-0 h-full w-full -rotate-90">
-              <motion.circle
+              <circle
                 cx="20"
                 cy="20"
                 r="18"
@@ -460,10 +238,7 @@ function TimelinePassos() {
                 strokeWidth="2.5"
                 fill="transparent"
                 strokeDasharray="120"
-                initial={{ strokeDashoffset: 120 }}
-                whileInView={{ strokeDashoffset: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: idx * 0.2 + 0.2 }}
+                strokeDashoffset="0"
               />
             </svg>
             <div className="relative z-20">
@@ -480,24 +255,20 @@ function TimelinePassos() {
               {step.desc}
             </p>
           </div>
-        </motion.div>
+        </div>
       ))}
     </div>
   );
 }
 
-// Double side column triggers checks/crosses animations
+// Static SVG checkmark and cross
 function AnimatedCheck() {
   return (
     <svg className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-      <motion.path
+      <path
         d="M20 6L9 17L4 12"
         strokeLinecap="round"
         strokeLinejoin="round"
-        initial={{ pathLength: 0 }}
-        whileInView={{ pathLength: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.2 }}
       />
     </svg>
   );
@@ -506,58 +277,25 @@ function AnimatedCheck() {
 function AnimatedCross() {
   return (
     <svg className="h-5 w-5 text-red-600 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-      <motion.path
+      <path
         d="M18 6L6 18M6 6l12 12"
         strokeLinecap="round"
         strokeLinejoin="round"
-        initial={{ pathLength: 0 }}
-        whileInView={{ pathLength: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.1 }}
       />
     </svg>
   );
 }
 
-// Typewriter qualified subtitle
+// Static tagline
 function TypewriterPhrase({ text }: { text: string }) {
-  const [displayText, setDisplayText] = useState("");
-  const [isInView, setIsInView] = useState(false);
-  const ref = useRef<HTMLParagraphElement | null>(null);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIsInView(true);
-        observer.unobserve(entry.target);
-      }
-    }, { threshold: 0.1 });
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!isInView) return;
-    let i = 0;
-    const interval = setInterval(() => {
-      setDisplayText(text.slice(0, i + 1));
-      i++;
-      if (i >= text.length) {
-        clearInterval(interval);
-      }
-    }, 12);
-    return () => clearInterval(interval);
-  }, [isInView, text]);
-
   return (
-    <p ref={ref} className="text-sm sm:text-base italic text-zinc-400 font-semibold leading-relaxed min-h-[50px]">
-      "{displayText}"
+    <p className="text-sm sm:text-base italic text-zinc-400 font-semibold leading-relaxed min-h-[50px]">
+      "{text}"
     </p>
   );
 }
 
-// Testimonials automatic carrossel
+// Testimonials carrossel without animations
 function TestimonialsCarousel() {
   const testimonials = [
     {
@@ -593,42 +331,28 @@ function TestimonialsCarousel() {
 
   return (
     <div className="relative max-w-xl mx-auto overflow-hidden px-4">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0, x: 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -60 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="bg-white p-6 sm:p-8 rounded-2xl border-2 border-[#D4A574]/20 shadow-md flex flex-col justify-between h-[230px]"
-        >
-          <div>
-            <div className="flex gap-1 mb-4 h-5">
-              {[...Array(5)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: i * 0.08, duration: 0.3 }}
-                >
-                  <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
-                </motion.div>
-              ))}
-            </div>
-            <p className="text-zinc-700 text-sm leading-relaxed italic font-semibold">
-              {testimonials[currentIndex].text}
-            </p>
+      <div className="bg-white p-6 sm:p-8 rounded-2xl border-2 border-[#D4A574]/20 shadow-md flex flex-col justify-between h-[230px]">
+        <div>
+          <div className="flex gap-1 mb-4 h-5">
+            {[...Array(5)].map((_, i) => (
+              <div key={i}>
+                <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
+              </div>
+            ))}
           </div>
-          <div className="border-t border-zinc-100 pt-3 mt-2 flex items-center justify-between">
-            <span className="text-xs font-black text-zinc-900 uppercase">
-              {testimonials[currentIndex].name}
-            </span>
-            <span className="text-[9px] uppercase font-bold text-[#8B4513] tracking-widest bg-[#8B4513]/5 border border-[#8B4513]/25 px-2.5 py-0.5 rounded">
-              {testimonials[currentIndex].tag}
-            </span>
-          </div>
-        </motion.div>
-      </AnimatePresence>
+          <p className="text-zinc-700 text-sm leading-relaxed italic font-semibold">
+            {testimonials[currentIndex].text}
+          </p>
+        </div>
+        <div className="border-t border-zinc-100 pt-3 mt-2 flex items-center justify-between">
+          <span className="text-xs font-black text-zinc-900 uppercase">
+            {testimonials[currentIndex].name}
+          </span>
+          <span className="text-[9px] uppercase font-bold text-[#8B4513] tracking-widest bg-[#8B4513]/5 border border-[#8B4513]/25 px-2.5 py-0.5 rounded">
+            {testimonials[currentIndex].tag}
+          </span>
+        </div>
+      </div>
 
       {/* Slide Index dots */}
       <div className="flex justify-center gap-2 mt-6">
@@ -647,7 +371,7 @@ function TestimonialsCarousel() {
   );
 }
 
-// Live numeric increment or strike on final stack
+// Static strike
 function RealTimeStrike({ startText, strikedText, resultText, animatedOnView }: { startText?: string; strikedText: string; resultText: string; animatedOnView: boolean }) {
   return (
     <div className="text-center mb-6">
@@ -655,14 +379,7 @@ function RealTimeStrike({ startText, strikedText, resultText, animatedOnView }: 
         <span className="text-zinc-500 text-xs sm:text-sm font-bold tracking-wide uppercase">
           {startText} {strikedText}
         </span>
-        {animatedOnView && (
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: "100%" }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            className="absolute top-1/2 left-0 h-0.5 bg-red-650"
-          />
-        )}
+        <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-red-650" />
       </div>
       <p className="font-serif text-4xl sm:text-5xl font-black text-[#D4A574] leading-tight mt-1 mb-2">
         {resultText}
@@ -671,33 +388,19 @@ function RealTimeStrike({ startText, strikedText, resultText, animatedOnView }: 
   );
 }
 
-// Autora section paragraph transitions
+// Static authors paragraphs
 function AutoraParagraph({ text, index }: { text: string; index: number }) {
   return (
-    <motion.p
-      initial={{ opacity: 0, y: 15 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, delay: index * 0.15 }}
-      className={index === 0 ? "italic text-stone-850 font-medium" : index === 3 ? "font-bold text-[#1A1A1A]" : "text-[#1A1A1A]/80"}
-    >
+    <p className={index === 0 ? "italic text-stone-850 font-medium" : index === 3 ? "font-bold text-[#1A1A1A]" : "text-[#1A1A1A]/80"}>
       {text}
-    </motion.p>
+    </p>
   );
 }
 
-// Final draw line divider inside card
+// Static divider
 function FinalDrawDivider() {
   return (
-    <div className="relative h-1 w-full bg-zinc-800/40 my-6 overflow-hidden">
-      <motion.div
-        initial={{ width: 0 }}
-        whileInView={{ width: "100%" }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.0, ease: "easeInOut" }}
-        className="h-full bg-gradient-to-r from-transparent via-[#D4A574] to-transparent"
-      />
-    </div>
+    <div className="relative h-[2px] w-full bg-[#D4A574]/30 my-6" />
   );
 }
 
@@ -808,7 +511,7 @@ export default function App() {
 
       {/* 2. INSTANT HERO SECTION - DEEP BLACK WITH GOLD PARTICLES */}
       <section 
-        className="relative overflow-hidden bg-[#1A1A1A] px-6 pt-20 pb-24 sm:px-8 md:pt-32 md:pb-36 flex flex-col justify-center min-h-[92vh]" 
+        className="relative overflow-hidden bg-[#1A1A1A] px-4 pt-20 pb-24 sm:px-8 md:pt-32 md:pb-36 flex flex-col justify-center min-h-[92vh]" 
         id="hero-section"
       >
         {/* Particle Canvas on backdrop */}
@@ -862,24 +565,29 @@ export default function App() {
                 </span>
               </motion.div>
 
-              {/* CTAs anchors slide inputs */}
-              <motion.div 
-                initial={{ opacity: 0, y: 25 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.8 }}
-                className="flex flex-col gap-3 sm:max-w-md"
-              >
-                <button 
-                  onClick={() => scrollToSection('dor')}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border-2 border-[#D4A574] bg-transparent text-[#D4A574] px-8 py-4 text-base font-bold transition-all duration-300 hover:bg-[#D4A574]/10 hover:text-white hover:border-white focus:outline-none"
-                  id="hero-cta-button"
+              {/* Premium Green Purchase CTA and Trust Badges */}
+              <div className="flex flex-col gap-3 w-full sm:max-w-md mt-6">
+                <a 
+                  href={HOTMART_LINK} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#28a745] hover:bg-[#218838] text-white px-8 py-4 text-base font-black uppercase tracking-wider transition-all duration-300 shadow-lg shadow-emerald-950/40"
+                  id="hero-buy-cta"
                 >
-                  Descobrir o método ↓
-                </button>
-                <p className="text-stone-400 text-xs mt-1.5 font-medium">
-                  Mais de 800 mulheres já acederam · Garantia de 7 dias
-                </p>
-              </motion.div>
+                  Sim, quero o meu Manual agora — €7,90
+                </a>
+                <div className="flex flex-col sm:flex-row items-center gap-3 mt-1.5 justify-center sm:justify-start">
+                  <div className="flex items-center gap-1.5 text-zinc-400 text-xs font-semibold">
+                    <ShieldCheck className="h-4 w-4 text-[#28a745]" />
+                    <span>Pagamento Seguro via MB Way</span>
+                  </div>
+                  <div className="hidden sm:block text-zinc-600">•</div>
+                  <div className="flex items-center gap-1.5 text-zinc-400 text-xs font-semibold">
+                    <Check className="h-4 w-4 text-[#28a745]" />
+                    <span>Garantia de 7 Dias</span>
+                  </div>
+                </div>
+              </div>
             </motion.div>
 
             {/* Right side books mockup graphic cover */}
@@ -907,7 +615,7 @@ export default function App() {
       </section>
 
       {/* 3. BLOCO DE DOR - STORYTELLING VIEWS */}
-      <section className="bg-[#1A1A1A] px-6 py-20 sm:px-8 sm:py-28 border-t border-[#D4A574]/10" id="dor">
+      <section className="bg-[#1A1A1A] px-4 py-20 sm:px-8 sm:py-28 border-t border-[#D4A574]/10" id="dor">
         <div className="mx-auto max-w-[960px]">
           
           <div className="text-center mb-16">
@@ -952,7 +660,7 @@ export default function App() {
       </section>
 
       {/* 4. PRODUTO (SPLIT SCREEN VIEW COMPONENT DESIGN) */}
-      <section className="bg-white px-6 py-20 sm:px-8 sm:py-28 border-y border-zinc-100" id="produto">
+      <section className="bg-white px-4 py-20 sm:px-8 sm:py-28 border-y border-zinc-100" id="produto">
         <div className="mx-auto max-w-[960px]">
           
           <div className="text-center mb-16">
@@ -1070,20 +778,35 @@ export default function App() {
 
           </div>
 
-          <div className="mt-12 text-center">
-            <button 
-              onClick={() => scrollToSection('viabilidade')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border-2 border-[#8B4513] px-10 py-4 text-center text-sm font-extrabold tracking-wider uppercase text-[#8B4513] bg-transparent shadow transition-all duration-300 hover:bg-[#8B4513]/5"
+          {/* Premium Green Purchase CTA and Trust Badges for Block 3 */}
+          <div className="mt-12 text-center max-w-md mx-auto">
+            <a 
+              href={HOTMART_LINK} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#28a745] hover:bg-[#218838] text-white px-8 py-4.5 text-base font-black uppercase tracking-wider transition-all duration-300 shadow-lg shadow-emerald-950/40"
+              id="product-buy-cta"
             >
-              Ver o conteúdo completo ↓
-            </button>
+              Sim, quero o meu Manual agora — €7,90
+            </a>
+            <div className="flex flex-col sm:flex-row items-center gap-3 mt-3 justify-center">
+              <div className="flex items-center gap-1.5 text-zinc-500 text-xs font-semibold">
+                <ShieldCheck className="h-4 w-4 text-[#28a745]" />
+                <span>Pagamento Seguro via MB Way</span>
+              </div>
+              <div className="hidden sm:block text-zinc-300">•</div>
+              <div className="flex items-center gap-1.5 text-zinc-500 text-xs font-semibold">
+                <Check className="h-4 w-4 text-[#28a745]" />
+                <span>Garantia de 7 Dias</span>
+              </div>
+            </div>
           </div>
 
         </div>
       </section>
 
       {/* 5. VIABILIDADE ECONÓMICA (8 CARDS CASCADE EFFECT) */}
-      <section className="bg-white px-6 py-20 sm:px-8 sm:py-28" id="viabilidade">
+      <section className="bg-white px-4 py-20 sm:px-8 sm:py-28" id="viabilidade">
         <div className="mx-auto max-w-[960px]">
           
           <div className="text-center mb-16">
@@ -1251,7 +974,7 @@ export default function App() {
       </section>
 
       {/* 6. DENTRO DO MÉTODO (GRID ON DESKTOP, SWIPE ON MOBILE WITH FLIP-IN) */}
-      <section className="bg-[#F8F5F0] px-6 py-20 sm:px-8 sm:py-28 border-y border-[#D4A574]/20" id="conteudo">
+      <section className="bg-[#F8F5F0] px-4 py-20 sm:px-8 sm:py-28 border-y border-[#D4A574]/20" id="conteudo">
         <div className="mx-auto max-w-[960px] relative">
           
           <div className="text-center mb-16 relative z-10">
@@ -1335,7 +1058,7 @@ export default function App() {
       </section>
 
       {/* 7. EXTRA BONUS SECTION (DARK CANVAS WITH REAL-TIME MARKER EFFECTS) */}
-      <section className="bg-[#1A1A1A] px-6 py-20 sm:px-8 sm:py-28 border-y border-[#D4A574]/25" id="bonus">
+      <section className="bg-[#1A1A1A] px-4 py-20 sm:px-8 sm:py-28 border-y border-[#D4A574]/25" id="bonus">
         <div className="mx-auto max-w-[960px]">
           
           <div className="text-center mb-16">
@@ -1388,20 +1111,24 @@ export default function App() {
             </p>
           </div>
 
-          <div className="mt-10 text-center">
-            <button 
-              onClick={() => scrollToSection('passos')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border-2 border-[#D4A574] px-10 py-4 text-center text-sm font-extrabold tracking-wider uppercase text-[#D4A574] bg-transparent shadow transition-all duration-300 hover:bg-[#D4A574]/5"
+          {/* Premium Green Purchase CTA for Block 6 */}
+          <div className="mt-10 text-center max-w-md mx-auto">
+            <a 
+              href={HOTMART_LINK} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#28a745] hover:bg-[#218838] text-white px-8 py-4.5 text-base font-black uppercase tracking-wider transition-all duration-300 shadow-lg shadow-emerald-950/40"
+              id="bonus-buy-cta"
             >
-              Ver os bónus em detalhe ↓
-            </button>
+              Sim, quero o meu Manual e bónus por €7,90
+            </a>
           </div>
 
         </div>
       </section>
 
       {/* 8. 3 PASSOS PARA LUCRAR (ANIMATED PATH TIMELINE) */}
-      <section className="bg-white px-6 py-20 sm:px-8 sm:py-28 border-y border-zinc-100" id="passos">
+      <section className="bg-white px-4 py-20 sm:px-8 sm:py-28 border-y border-zinc-100" id="passos">
         <div className="mx-auto max-w-[960px]">
           
           <div className="text-center mb-16">
@@ -1428,7 +1155,7 @@ export default function App() {
       </section>
 
       {/* 9. DIFERENCIAÇÃO COMPARAÇÃO (SIDE TRANSLATE WITH DRAW CHECKMARKS) */}
-      <section className="bg-white px-6 py-20 sm:px-8 sm:py-28" id="comparacao">
+      <section className="bg-white px-4 py-20 sm:px-8 sm:py-28" id="comparacao">
         <div className="mx-auto max-w-[960px]">
           
           <div className="text-center mb-16">
@@ -1530,7 +1257,7 @@ export default function App() {
       </section>
 
       {/* 10. QUALIFICAÇÃO (DARK CANVAS WITH DELAY CHECKS AND TYPEWRITER FINALE) */}
-      <section className="bg-[#1A1A1A] px-6 py-20 sm:px-8 sm:py-28 border-y border-[#D4A574]/15" id="qualificacao">
+      <section className="bg-[#1A1A1A] px-4 py-20 sm:px-8 sm:py-28 border-y border-[#D4A574]/15" id="qualificacao">
         <div className="mx-auto max-w-[960px]">
           
           <div className="text-center mb-16">
@@ -1639,7 +1366,7 @@ export default function App() {
       </div>
 
       {/* 11. HISTÓRIA DA AUTORA (CINEMATIC COLS WITH PROGRESS LINE) */}
-      <section ref={autoraRef} className="bg-[#F8F5F0] px-6 py-20 sm:px-8 sm:py-28 relative" id="autora">
+      <section ref={autoraRef} className="bg-[#F8F5F0] px-4 py-20 sm:px-8 sm:py-28 relative" id="autora">
         <div className="mx-auto max-w-[960px] relative z-10">
           
           <div className="grid gap-12 lg:grid-cols-12 items-center">
@@ -1711,7 +1438,7 @@ export default function App() {
       </section>
 
       {/* 12. TESTIMONIALS (AUTO-SLIDING CAROUSEL) */}
-      <section className="bg-white px-6 py-20 sm:px-8 sm:py-28 border-y border-zinc-100" id="depoimentos">
+      <section className="bg-white px-4 py-20 sm:px-8 sm:py-28 border-y border-zinc-100" id="depoimentos">
         <div className="mx-auto max-w-[960px]">
           
           <div className="text-center mb-16">
@@ -1726,24 +1453,22 @@ export default function App() {
           <TestimonialsCarousel />
 
           <div className="mt-12 text-center">
-            <motion.a 
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <a 
               href={HOTMART_LINK}
               target="_blank" 
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-lg bg-[#8B4513] px-10 py-4.5 text-center text-base font-bold text-white shadow-md transition-all duration-300 hover:bg-[#70370f] hover:shadow-xl"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#28a745] px-10 py-4.5 text-center text-base font-black uppercase tracking-wider text-white shadow-lg shadow-emerald-950/40 transition-all duration-300 hover:bg-[#218838]"
             >
               Quero resultados como estes — €7,90
               <ArrowRight className="h-5 w-5" />
-            </motion.a>
+            </a>
           </div>
 
         </div>
       </section>
 
       {/* 13. PROVA SOCIAL VISUAL (PINTEREST MASONRY GRID WITH HOVER DETAIL OVERLAYS) */}
-      <section className="bg-white px-6 py-20 sm:px-8 sm:py-28 border-b border-zinc-100" id="provas">
+      <section className="bg-white px-4 py-20 sm:px-8 sm:py-28 border-b border-zinc-100" id="provas">
         <div className="mx-auto max-w-[960px]">
           <div className="text-center mb-16">
             <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8B4513]">PROVA DE SUCESSO DE PORTUGAL</span>
@@ -1792,23 +1517,21 @@ export default function App() {
           </div>
 
           <div className="mt-8 text-center">
-            <motion.a 
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <a 
               href={HOTMART_LINK}
               target="_blank" 
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-lg bg-[#8B4513] px-10 py-4.5 text-center text-base font-bold text-white shadow-md transition-all duration-300 hover:bg-[#70370f] hover:shadow-xl"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#28a745] px-10 py-4.5 text-center text-base font-black uppercase tracking-wider text-white shadow-lg shadow-emerald-950/40 transition-all duration-300 hover:bg-[#218838]"
             >
               Quero fazer malas como estas — €7,90
               <ArrowRight className="h-5 w-5" />
-            </motion.a>
+            </a>
           </div>
         </div>
       </section>
 
       {/* 14. STACK DE VALOR + CTA FINAL (DARK SCHEME WITH SEQUENTIAL REVEAL AND MARKERS) */}
-      <section ref={finalCtaRef} className="bg-zinc-950 px-6 py-20 text-white sm:px-8 sm:py-28 border-t-2 border-[#8B4513]" id="cta-final">
+      <section ref={finalCtaRef} className="bg-zinc-950 px-4 py-20 text-white sm:px-8 sm:py-28 border-t-2 border-[#8B4513]" id="cta-final">
         <div className="mx-auto max-w-[960px] text-center">
           
           <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#D4A574] inline-block mb-3">O TEU INVESTIMENTO</span>
@@ -1867,25 +1590,15 @@ export default function App() {
             />
 
             <div className="max-w-md mx-auto mb-6">
-              <motion.a 
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                animate={{ 
-                  boxShadow: ["0 0 0 0 rgba(22,163,74,0)", "0 0 20px 4px rgba(22,163,74,0.4)", "0 0 0 0 rgba(22,163,74,0)"] 
-                }}
-                transition={{ 
-                  repeat: Infinity, 
-                  duration: 2.2, 
-                  ease: "easeInOut" 
-                }}
+              <a 
                 href={HOTMART_LINK} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#16A34A] px-6 py-4.5 text-center text-sm sm:text-base font-black uppercase tracking-widest text-white transition-all duration-300 hover:bg-[#15803D] focus:outline-none"
+                className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#28a745] px-6 py-4.5 text-center text-sm sm:text-base font-black uppercase tracking-widest text-white transition-all duration-300 hover:bg-[#218838] focus:outline-none shadow-lg shadow-emerald-950/40"
                 id="final-cta-button"
               >
                 Quero tudo isto por €7,90 — acesso imediato
-              </motion.a>
+              </a>
               <p className="text-zinc-400 text-xs text-center mt-3 font-semibold tracking-wide">
                 Pagamento único. Sem mensalidades. Acesso imediato e vitalício.
               </p>
@@ -1930,8 +1643,21 @@ export default function App() {
       </section>
 
       {/* 15. COMPLIANCE FOOTER & MODALS */}
-      <footer className="bg-zinc-950 px-6 py-16 text-zinc-500 border-t border-zinc-900" id="main-footer">
+      <footer className="bg-zinc-950 px-4 py-16 text-zinc-500 border-t border-zinc-900" id="main-footer">
         <div className="mx-auto max-w-[960px]">
+          {/* Botão final de fecho no Rodapé */}
+          <div className="mb-12 text-center max-w-md mx-auto">
+            <a 
+              href={HOTMART_LINK} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#28a745] hover:bg-[#218838] text-white px-8 py-4.5 text-base font-black uppercase tracking-wider transition-all duration-300 shadow-lg shadow-emerald-950/40"
+              id="footer-buy-cta"
+            >
+              Sim, quero começar o meu Atelier por €7,90
+            </a>
+          </div>
+
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-10">
             <div className="font-serif text-lg text-[#D4A574] tracking-[0.2em] uppercase font-bold text-center md:text-left">
               ATELIER DE MALAS PREMIUM
